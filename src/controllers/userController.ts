@@ -30,7 +30,7 @@ export const createAdmin = async (req: Request, res: Response) => {
 
 // Login de administrador
 export const loginAdmin = async (req: Request, res: Response) => {
-  const { login, senha } = req.body;
+  const {login, senha } = req.body;
 
   try {
     // Buscar o usuário no banco de dados pelo login usando Knex
@@ -55,12 +55,10 @@ export const loginAdmin = async (req: Request, res: Response) => {
       process.env.JWT_SECRET || 'seuSegredoJWT',
       { expiresIn: '1h' }
     );
-
-    // Retornar o token gerado
-    res.status(200).json({ token });
+    // Retornar o token e o nome do usuário
+   res.status(200).json({nome: user.nome, token});
   } catch (error) {
     console.error('Erro ao fazer login:', error);
     res.status(500).json({ error: 'Erro ao fazer login' });
   }
 };
-
